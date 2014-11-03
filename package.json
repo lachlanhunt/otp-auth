@@ -1,0 +1,24 @@
+{
+  "name": "otp-auth",
+  "version": "1.0.0",
+  "description": "HMAC- and Time-Based One Time Password (HOTP and TOTP) implementation",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "TOTP",
+    "HOTP",
+    "RFC6238",
+    "RFC4226",
+    "2FA",
+    "2 factor",
+    "authentication"
+  ],
+  "author": {
+    "name": "Lachlan Hunt",
+    "email": "lachlan.hunt@lachy.id.au",
+    "url": "http://lachy.id.au/"
+  },
+  "license": "MIT"
+}
