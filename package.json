@@ -9,16 +9,18 @@
   "keywords": [
     "TOTP",
     "HOTP",
-    "RFC6238",
-    "RFC4226",
+    "RFC 6238",
+    "RFC 4226",
     "2FA",
     "2 factor",
-    "authentication"
+    "authentication",
+    "One Time Password"
   ],
   "author": {
     "name": "Lachlan Hunt",
     "email": "lachlan.hunt@lachy.id.au",
     "url": "http://lachy.id.au/"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "private": true
 }
