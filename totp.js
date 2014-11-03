@@ -69,6 +69,9 @@ Object.defineProperties(totp.prototype, {
 		value: DEFAULT_TIME_STEP,
 		writable: true
 	},
+	"_hotp": {
+		writable: true
+	}
 });
 
 function setKey(k) {
