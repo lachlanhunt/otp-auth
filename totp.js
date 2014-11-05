@@ -49,6 +49,9 @@ function Totp(config) {
 Totp.prototype = new hotp();
 
 Object.defineProperties(Totp.prototype, {
+	"type": {
+		value: "totp"
+	},
 	"startTime": {
 		get: getStartTime,
 		set: setStartTime,
@@ -121,6 +124,7 @@ function toJSON(config) {
 	}
 
 	return {
+		"type": config.type,
 		"key": config.key,
 		"startTime": config.startTime,
 		"timeStep": config.timeStep,

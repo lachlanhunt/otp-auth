@@ -38,6 +38,9 @@ function Hotp(config) {
 }
 
 Object.defineProperties(Hotp.prototype, {
+	"type": {
+		value: "hotp"
+	},
 	"key": {
 		get: getKey,
 		set: setKey,
@@ -170,6 +173,7 @@ function toJSON(config) {
 	}
 
 	return {
+		"type": config.type,
 		"key": config.key,
 		"counter": config.counter,
 		"digits": config.digits,
