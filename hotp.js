@@ -10,7 +10,7 @@ var MIN_DIGITS = 6;
 /**
  * @constructor
  */
-function hotp(config) {
+function Hotp(config) {
 	Object.defineProperties(this, {
 		"_key": {
 			writable: true,
@@ -37,7 +37,7 @@ function hotp(config) {
 	this.hash    = config.hash;
 }
 
-Object.defineProperties(hotp.prototype, {
+Object.defineProperties(Hotp.prototype, {
 	"key": {
 		get: getKey,
 		set: setKey,
@@ -120,8 +120,8 @@ function verify(config, otp, deltaA, deltaB) {
 }
 
 function getOTP(config) {
-	if (!(config instanceof hotp)) {
-		return new hotp(config).getOTP()
+	if (!(config instanceof Hotp)) {
+		return new Hotp(config).getOTP()
 	}
 
 	var hmac = crypto.createHmac(config.hash, config.key);
@@ -201,8 +201,8 @@ function truncate(hash, digits) {
 	return pad(snum % Math.pow(10, digits), digits);
 }
 
-hotp.getOTP = getOTP;
-hotp.getOTPRange = getOTPRange;
-hotp.verify = verify;
+Hotp.getOTP = getOTP;
+Hotp.getOTPRange = getOTPRange;
+Hotp.verify = verify;
 
-module.exports = hotp;
+module.exports = Hotp;

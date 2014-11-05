@@ -8,7 +8,7 @@ var DEFAULT_START_TIME = 0;
 /**
  * @constructor
  */
-function totp(config) {
+function Totp(config) {
 	Object.defineProperties(this, {
 		"_key": {
 			writable: true,
@@ -46,9 +46,9 @@ function totp(config) {
 	this.hash      = config.hash;
 }
 
-totp.prototype = new hotp();
+Totp.prototype = new hotp();
 
-Object.defineProperties(totp.prototype, {
+Object.defineProperties(Totp.prototype, {
 	"startTime": {
 		get: getStartTime,
 		set: setStartTime,
@@ -65,12 +65,12 @@ Object.defineProperties(totp.prototype, {
 	},
 	"getOTP": {
 		value: function() {
-			return totp.getOTP(this);
+			return Totp.getOTP(this);
 		}
 	},
 	"verify": {
 		value: function(otp, deltaA, deltaB) {
-			return totp.verify(this, otp, deltaA, deltaB);
+			return Totp.verify(this, otp, deltaA, deltaB);
 		}
 	}
 });
@@ -104,8 +104,8 @@ function getCounter() {
 }
 
 function getOTP(config) {
-	if (!(config instanceof totp)) {
-		return new totp(config).getOTP()
+	if (!(config instanceof Totp)) {
+		return new Totp(config).getOTP()
 	}
 	return hotp.getOTP.call(this, config);
 }
@@ -128,7 +128,7 @@ function timeStepCounter(t0, step) {
 	return Math.floor((unixTime - t0) / step);
 }
 
-totp.getOTP = getOTP;
-totp.verify = hotp.verify;
+Totp.getOTP = getOTP;
+Totp.verify = hotp.verify;
 
-module.exports = totp;
+module.exports = Totp;

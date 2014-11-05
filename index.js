@@ -1,4 +1,4 @@
 "use strict";
 
-exports.hotp = require("./hotp");
-exports.totp = require("./totp");
+exports.Hotp = require("./hotp");
+exports.Totp = require("./totp");
