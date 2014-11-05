@@ -9,19 +9,46 @@ var DEFAULT_START_TIME = 0;
  * @constructor
  */
 function totp(config) {
+	Object.defineProperties(this, {
+		"_key": {
+			writable: true,
+			enumerable: false
+		},
+		"_counter": {
+			writable: true,
+			enumerable: false
+		},
+		"_digits": {
+			writable: true,
+			enumerable: false
+		},
+		"_hash": {
+			writable: true,
+			enumerable: false
+		},
+		"_startTime": {
+			value: DEFAULT_START_TIME,
+			writable: true,
+			enumerable: false
+		},
+		"_timeStep": {
+			value: DEFAULT_TIME_STEP,
+			writable: true,
+			enumerable: false
+		}
+	});
+
 	config = config || {};
+	this.key       = config.key;
 	this.startTime = config.startTime;
 	this.timeStep  = config.timeStep;
-
-	this._hotp = new hotp(config)
+	this.digits    = config.digits;
+	this.hash      = config.hash;
 }
 
+totp.prototype = new hotp();
+
 Object.defineProperties(totp.prototype, {
-	"key": {
-		get: getKey,
-		set: setKey,
-		enumerable: true
-	},
 	"startTime": {
 		get: getStartTime,
 		set: setStartTime,
@@ -36,52 +63,17 @@ Object.defineProperties(totp.prototype, {
 		get: getCounter,
 		enumerable: true
 	},
-	"digits": {
-		get: getDigits,
-		set: setDigits,
-		enumerable: true
-	},
-	"hash": {
-		get: getHash,
-		set: setHash,
-		enumerable: true
-	},
 	"getOTP": {
 		value: function() {
 			return totp.getOTP(this);
-		}
-	},
-	"getOTPRange": {
-		value: function(deltaA, deltaB) {
-			return totp.getOTPRange(this, deltaA, deltaB);
 		}
 	},
 	"verify": {
 		value: function(otp, deltaA, deltaB) {
 			return totp.verify(this, otp, deltaA, deltaB);
 		}
-	},
-	"_startTime": {
-		value: DEFAULT_START_TIME,
-		writable: true
-	},
-	"_timeStep": {
-		value: DEFAULT_TIME_STEP,
-		writable: true
-	},
-	"_hotp": {
-		writable: true
 	}
 });
-
-function setKey(k) {
-	this._hotp.key = k;
-}
-
-function getKey() {
-	return this._hotp.key;
-}
-
 
 function setStartTime(t0) {
 	t0 = t0 || DEFAULT_START_TIME;
@@ -111,20 +103,11 @@ function getCounter() {
 	return timeStepCounter(this.startTime, this.timeStep);
 }
 
-function setDigits(digits) {
-	this._hotp.digits = digits;
-}
-
-function getDigits() {
-	return this._hotp.digits;
-}
-
-function setHash(hash) {
-	this._hotp.hash = hash;
-}
-
-function getHash() {
-	return this._hotp.hash;
+function getOTP(config) {
+	if (!(config instanceof totp)) {
+		return new totp(config).getOTP()
+	}
+	return hotp.getOTP.call(this, config);
 }
 
 /**
@@ -145,8 +128,7 @@ function timeStepCounter(t0, step) {
 	return Math.floor((unixTime - t0) / step);
 }
 
-totp.getOTP = hotp.getOTP;
-totp.getOTPRange = hotp.getOTPRange;
+totp.getOTP = getOTP;
 totp.verify = hotp.verify;
 
 module.exports = totp;

@@ -11,6 +11,25 @@ var MIN_DIGITS = 6;
  * @constructor
  */
 function hotp(config) {
+	Object.defineProperties(this, {
+		"_key": {
+			writable: true,
+			enumerable: false
+		},
+		"_counter": {
+			writable: true,
+			enumerable: false
+		},
+		"_digits": {
+			writable: true,
+			enumerable: false
+		},
+		"_hash": {
+			writable: true,
+			enumerable: false
+		}
+	});
+
 	config = config || {}
 	this.key     = config.key;
 	this.counter = config.counter;
@@ -44,25 +63,15 @@ Object.defineProperties(hotp.prototype, {
 			return getOTP(this);
 		}
 	},
+	"getOTPRange": {
+		value: function(deltaA, deltaB) {
+			return totp.getOTPRange(this, deltaA, deltaB);
+		}
+	},
 	"verify": {
 		value: function(otp, deltaA, deltaB) {
 			return verify(this, otp, deltaA, deltaB);
 		}
-	},
-	"_key": {
-		writable: true
-	},
-	"_counter": {
-		value: DEFAULT_COUNTER,
-		writable: true
-	},
-	"_digits": {
-		value: DEFAULT_DIGITS,
-		writable: true
-	},
-	"_hash": {
-		value: DEFAULT_HASH,
-		writable: true
 	}
 });
 
@@ -78,9 +87,7 @@ function getKey() {
 function setCounter(c) {
 	c = c || DEFAULT_COUNTER;
 	c = Math.round(+c);
-	if (c >= 0 && isFinite(c)) {
-		this._counter = c;
-	}
+	this._counter = (c >= 0 && isFinite(c)) ? c : DEFAULT_COUNTER;
 };
 
 function getCounter() {
@@ -90,9 +97,7 @@ function getCounter() {
 function setDigits(digits) {
 	digits = digits || DEFAULT_DIGITS;
 	digits = Math.round(+digits);
-	if (digits >= MIN_DIGITS && isFinite(digits)) {
-		this._digits = digits;
-	}
+	this._digits = (digits >= MIN_DIGITS && isFinite(digits)) ? digits : DEFAULT_DIGITS;
 };
 
 function getDigits() {
@@ -101,9 +106,7 @@ function getDigits() {
 
 function setHash(hash) {
 	hash = hash || DEFAULT_HASH;
-	if (crypto.getHashes().indexOf(hash)) {
-		this._hash = hash;
-	}
+	this._hash = (crypto.getHashes().indexOf(hash)) ? hash : DEFAULT_HASH;
 };
 
 function getHash() {
@@ -117,7 +120,11 @@ function verify(config, otp, deltaA, deltaB) {
 }
 
 function getOTP(config) {
-	var hmac = crypto.createHmac("sha1", config.key);
+	if (!(config instanceof hotp)) {
+		return new hotp(config).getOTP()
+	}
+
+	var hmac = crypto.createHmac(config.hash, config.key);
 	hmac.end(nToInt64BE(config.counter));
 	return truncate(hmac.read(), config.digits);
 }
