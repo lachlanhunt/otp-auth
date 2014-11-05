@@ -72,6 +72,11 @@ Object.defineProperties(Totp.prototype, {
 		value: function(otp, deltaA, deltaB) {
 			return Totp.verify(this, otp, deltaA, deltaB);
 		}
+	},
+	"toJSON": {
+		value: function() {
+			return toJSON(this);
+		}
 	}
 });
 
@@ -108,6 +113,20 @@ function getOTP(config) {
 		return new Totp(config).getOTP()
 	}
 	return hotp.getOTP.call(this, config);
+}
+
+function toJSON(config) {
+	if (!(config instanceof Totp)) {
+		return new Totp(config).toJSON();
+	}
+
+	return {
+		"key": config.key,
+		"startTime": config.startTime,
+		"timeStep": config.timeStep,
+		"digits": config.digits,
+		"hash": config.hash
+	};
 }
 
 /**

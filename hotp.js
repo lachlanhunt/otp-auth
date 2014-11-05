@@ -72,6 +72,11 @@ Object.defineProperties(Hotp.prototype, {
 		value: function(otp, deltaA, deltaB) {
 			return verify(this, otp, deltaA, deltaB);
 		}
+	},
+	"toJSON": {
+		value: function() {
+			return toJSON(this);
+		}
 	}
 });
 
@@ -106,7 +111,7 @@ function getDigits() {
 
 function setHash(hash) {
 	hash = hash || DEFAULT_HASH;
-	this._hash = (crypto.getHashes().indexOf(hash)) ? hash : DEFAULT_HASH;
+	this._hash = (crypto.getHashes().indexOf(hash) !== -1) ? hash : DEFAULT_HASH;
 };
 
 function getHash() {
@@ -159,6 +164,18 @@ function getOTPRange(config, deltaA, deltaB) {
 	return range;
 }
 
+function toJSON(config) {
+	if (!(config instanceof Hotp)) {
+		return new Hotp(config).toJSON();
+	}
+
+	return {
+		"key": config.key,
+		"counter": config.counter,
+		"digits": config.digits,
+		"hash": config.hash
+	};
+}
 
 function nToInt64BE(n) {
 	var a = Math.floor(n / 0x100000000);
