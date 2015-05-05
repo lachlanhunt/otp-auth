@@ -1,6 +1,7 @@
 "use strict";
 
-var crypto = require('crypto');
+var crypto = require("crypto");
+var base32 = require("thirty-two");
 
 var DEFAULT_COUNTER = 0;
 var DEFAULT_DIGITS = 6;
@@ -85,7 +86,7 @@ Object.defineProperties(Hotp.prototype, {
 
 function setKey(k) {
 	k = k || "";
-	this._key = k;
+	this._key = (typeof k === "string") ? base32.decode(k) : k
 }
 
 function getKey() {
@@ -174,7 +175,7 @@ function toJSON(config) {
 
 	return {
 		"type": config.type,
-		"key": config.key,
+		"key": base32.encode(config.key).toString(),
 		"counter": config.counter,
 		"digits": config.digits,
 		"hash": config.hash

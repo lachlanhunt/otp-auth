@@ -1,6 +1,7 @@
 "use strict";
 
 var hotp = require("./hotp");
+var base32 = require("thirty-two");
 
 var DEFAULT_TIME_STEP = 30;
 var DEFAULT_START_TIME = 0;
@@ -125,7 +126,7 @@ function toJSON(config) {
 
 	return {
 		"type": config.type,
-		"key": config.key,
+		"key": base32.encode(config.key).toString(),
 		"startTime": config.startTime,
 		"timeStep": config.timeStep,
 		"digits": config.digits,
