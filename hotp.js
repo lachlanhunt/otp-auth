@@ -69,7 +69,7 @@ Object.defineProperties(Hotp.prototype, {
 	},
 	"getOTPRange": {
 		value: function(deltaA, deltaB) {
-			return totp.getOTPRange(this, deltaA, deltaB);
+			return getOTPRange(this, deltaA, deltaB);
 		}
 	},
 	"verify": {
@@ -161,8 +161,9 @@ function getOTPRange(config, deltaA, deltaB) {
 	for (var i = start; i <= end; i++) {
 		range.push(getOTP({
 			key: config.key,
-			counter: i,
-			digits: config.digits
+			digits: config.digits,
+			hash: config.hash,
+			counter: i
 		}));
 	}
 	return range;
@@ -176,9 +177,9 @@ function toJSON(config) {
 	return {
 		"type": config.type,
 		"key": base32.encode(config.key).toString(),
-		"counter": config.counter,
 		"digits": config.digits,
-		"hash": config.hash
+		"hash": config.hash,
+		"counter": config.counter
 	};
 }
 

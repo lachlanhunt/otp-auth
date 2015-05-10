@@ -4,10 +4,10 @@ var otp = require("otp-auth");
 var config = {
 	"type": "totp",
 	"key": "3E8SNBQMJLDOUIIA",
-	"startTime": 0,
-	"timeStep": 30,
 	"digits": 6,
-	"hash":"sha1"
+	"hash":"sha1",
+	"startTime": 0,
+	"timeStep": 30
 };
 
 var key = otp.createOTP(config);

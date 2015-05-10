@@ -40,6 +40,7 @@ function Totp(config) {
 	});
 
 	config = config || {};
+
 	this.key       = config.key;
 	this.startTime = config.startTime;
 	this.timeStep  = config.timeStep;
@@ -127,10 +128,10 @@ function toJSON(config) {
 	return {
 		"type": config.type,
 		"key": base32.encode(config.key).toString(),
-		"startTime": config.startTime,
-		"timeStep": config.timeStep,
 		"digits": config.digits,
-		"hash": config.hash
+		"hash": config.hash,
+		"startTime": config.startTime,
+		"timeStep": config.timeStep
 	};
 }
 
