@@ -87,7 +87,7 @@ Object.defineProperties(Totp.prototype, {
 function setStartTime(t0) {
 	t0 = t0 || DEFAULT_START_TIME;
 	t0 = Math.round(+t0);
-	if (t0 >= 0 && isFinite(t0)) {
+	if (isFinite(t0)) {
 		this._startTime = t0;
 	}
 };
