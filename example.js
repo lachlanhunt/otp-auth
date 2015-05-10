@@ -1,9 +1,8 @@
-var base32 = require("thirty-two");
 var otp = require("otp-auth");
 
 var config = {
 	"type": "totp",
-	"key": "3E8SNBQMJLDOUIIA",
+	"key": "W7KOWU3OVURLXFNMZONBGTWQHIC2S4SR",
 	"digits": 6,
 	"hash":"sha1",
 	"startTime": 0,
