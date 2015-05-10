@@ -120,6 +120,13 @@ function getOTP(config) {
 	return hotp.getOTP.call(this, config);
 }
 
+function getOTPRange(config, deltaA, deltaB) {
+	if (!(config instanceof Totp)) {
+		return new Totp(config).getOTPRange(deltaA, deltaB);
+	}
+	return config.getOTPRange(deltaA, deltaB);
+}
+
 function toJSON(config) {
 	if (!(config instanceof Totp)) {
 		return new Totp(config).toJSON();
@@ -154,6 +161,7 @@ function timeStepCounter(t0, step) {
 }
 
 Totp.getOTP = getOTP;
+Totp.getOTPRange = getOTPRange;
 Totp.verify = hotp.verify;
 
 module.exports = Totp;
