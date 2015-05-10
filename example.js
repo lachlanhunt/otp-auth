@@ -1,9 +1,7 @@
 var base32 = require("thirty-two");
 var otp = require("otp-auth");
-var Totp = otp.Totp;
-var Hotp = otp.Hotp;
 
-var data = {
+var config = {
 	"type": "totp",
 	"key": "3E8SNBQMJLDOUIIA",
 	"startTime": 0,
@@ -12,7 +10,7 @@ var data = {
 	"hash":"sha1"
 };
 
-var key = new Totp(data);
+var key = otp.createOTP(config);
 
 console.log(JSON.stringify(key));
 console.log(key.getOTP());
