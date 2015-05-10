@@ -158,13 +158,15 @@ function getOTPRange(config, deltaA, deltaB) {
 		end = temp;
 	}
 
-	for (var i = start; i <= end; i++) {
-		range.push(getOTP({
-			key: config.key,
-			digits: config.digits,
-			hash: config.hash,
-			counter: i
-		}));
+	var generator = new Hotp({
+		key: config.key,
+		digits: config.digits,
+		hash: config.hash,
+		counter: start
+	});
+
+	for (; generator.counter <= end; generator.counter++) {
+		range.push(generator.getOTP());
 	}
 	return range;
 }
