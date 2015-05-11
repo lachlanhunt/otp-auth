@@ -216,7 +216,7 @@ function truncate(hash, digits) {
 	// Determine the offset based on the lowest 4 bits in the sequence
 	var offset = bytes[bytes.byteLength - 1] & 0x0F;
 
-	// Read 4 bytes befinning from offset, interpret as a 32 bit integer.
+	// Read 4 bytes beginning from offset, interpret as a 32 bit integer.
 	// Sets the most significant bit to 0, to prevent the number from being interpreted as negative
 	var snum = (bytes[offset+0] & 0x7F) << 24
 	         | (bytes[offset+1] & 0xFF) << 16
