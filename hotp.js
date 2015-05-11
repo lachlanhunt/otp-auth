@@ -1,3 +1,8 @@
+/**
+ * Created by Lachlan Hunt
+ * https://github.com/lachlanhunt/xotp
+ */
+
 "use strict";
 
 var crypto = require("crypto");

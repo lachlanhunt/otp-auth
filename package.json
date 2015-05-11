@@ -21,6 +21,7 @@
     "email": "lachlan.hunt@lachy.id.au",
     "url": "http://lachy.id.au/"
   },
+  "repository": "lachlanhunt/xotp",
   "license": "MIT",
   "private": true,
   "dependencies": {
